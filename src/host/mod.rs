@@ -9,3 +9,5 @@ pub(crate) mod emscripten;
 pub(crate) mod null;
 #[cfg(windows)]
 pub(crate) mod wasapi;
+#[cfg(unknown)]
+pub(crate) mod websys;

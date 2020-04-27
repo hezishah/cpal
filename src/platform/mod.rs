@@ -482,6 +482,24 @@ mod platform_impl {
     }
 }
 
+#[cfg(target_os = "unknown")]
+mod platform_impl {
+    pub use crate::host::websys::{
+        Device as WebSysDevice, Devices as WebSysDevices, Host as WebSysHost,
+        Stream as WebSysStream, SupportedInputConfigs as WebSysSupportedInputConfigs,
+        SupportedOutputConfigs as WebSysSupportedOutputConfigs,
+    };
+
+    impl_platform_host!(WebSys websys "WebSys");
+
+    /// The default host for the current compilation target platform.
+    pub fn default_host() -> Host {
+        WebSysHost::new()
+            .expect("the default host should always be available")
+            .into()
+    }
+}
+
 #[cfg(target_os = "emscripten")]
 mod platform_impl {
     pub use crate::host::emscripten::{
@@ -535,7 +553,8 @@ mod platform_impl {
     target_os = "freebsd",
     target_os = "macos",
     target_os = "ios",
-    target_os = "emscripten"
+    target_os = "emscripten",
+    target_os = "unknown"
 )))]
 mod platform_impl {
     pub use crate::host::null::{
